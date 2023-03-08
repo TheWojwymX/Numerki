@@ -1,0 +1,11 @@
+def choose_function():
+    print("Made by Jakub Kalinowski & Piotr Marszałek")
+    print("Choose your function:")
+    print("1. x^3 - 1")
+    print("2. sin(x)")
+    print("3. cos(x)")
+    print("4. tg(x)")
+    print("5. ctg(x)")
+    print("6. sin(x)/x")
+    print("7. ctg(x)")
+    print("8. sin(2x^2 - 2) - 3x^3 + 2x^2 - 1")
