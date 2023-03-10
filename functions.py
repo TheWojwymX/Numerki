@@ -99,7 +99,8 @@ def falsi(fun_num: int, leftRange: np.longdouble, rightRange: np.longdouble, eps
                 function_value(right, fun_num) - function_value(left, fun_num)))
         Fiy.append(function_value(Fix[iter_number], fun_num))
 
-        diff = abs(Fiy[iter_number])
+        if len(Fix) > 2:
+            diff = abs(Fix[iter_number] - Fix[iter_number-1])
         iter_number = iter_number + 1
 
     return Fix
