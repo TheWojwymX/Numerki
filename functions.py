@@ -85,19 +85,16 @@ def falsi(fun_num: int, leftRange: np.longdouble, rightRange: np.longdouble, eps
     if eps is not None:
         diff = eps + 1
 
-    Fix.append((left * function_value(right, fun_num) - right * function_value(left, fun_num)) / (
-            function_value(right, fun_num) - function_value(left, fun_num)))
-    Fiy.append(function_value(Fix[0], fun_num))
-
     while ite is not None and iter_number < ite or eps is not None and diff > eps:
-        if Fiy[iter_number] * function_value(left, fun_num) <= 0:
-            right = Fix[iter_number]
-        else:
-            left = Fix[iter_number]
 
         Fix.append((left * function_value(right, fun_num) - right * function_value(left, fun_num)) / (
                 function_value(right, fun_num) - function_value(left, fun_num)))
         Fiy.append(function_value(Fix[iter_number], fun_num))
+
+        if Fiy[iter_number] * function_value(left, fun_num) <= 0:
+            right = Fix[iter_number]
+        else:
+            left = Fix[iter_number]
 
         if len(Fix) > 2:
             diff = abs(Fix[iter_number] - Fix[iter_number-1])

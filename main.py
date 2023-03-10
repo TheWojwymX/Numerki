@@ -3,7 +3,7 @@ from menus import *
 
 
 def main():
-    print(falsi(1, 0, 3, eps= 0.00001))
+    print(falsi(1, 0, 3, ite=300))
     # choose_function()
     # while 1:
     #     fun = int(input("Function: "))
