@@ -16,23 +16,22 @@ def horner(n: [int], coe: [float], x: [float]) -> np.longdouble:
 # 1. x^3 - 1
 # 2. sin(x)
 # 3. cos(x)
-# 4. tg(x)
-# 5. ctg(x)
+# 4. 5^x - 3
+# 5. 4^(3 tan(0.3x^2 - 1)) - 1
 # 6. sin(x)/x
-# 7. xtg(x)
-# 8. sin(2x^2 - 2) - 3x^3 + 2x^2 - 1
+# 7. sin(2x^2 - 2) - 3x^3 + 2x^2 - 1
 
 def function_value(x: np.longdouble, fun_num: int):
     if fun_num == 1:
-        return horner(4, [1, 0, 0, -1], x)
+        return horner(4, [1, -6, 7, -3], x)
     elif fun_num == 2:
         return math.sin(x)
     elif fun_num == 3:
         return math.cos(x)
     elif fun_num == 4:
-        return math.tan(x)
+        return 5 ** x - 3
     elif fun_num == 5:
-        return 1 / math.tan(x)
+        return 4 ** (3 * math.cos(2*x)) - 1
     elif fun_num == 6:
         return math.sin(x) / x
     elif fun_num == 7:
