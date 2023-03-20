@@ -12,16 +12,22 @@ def get_function_equation(function_number):
     return function_equation.get(function_number)
 
 
-def draw_function(function_number, beginning, end, precision, external_offset=0):
+def draw_function(function_number, beginning, end, precision=None, iterations=None, external_offset=0):
+    if iterations is None:
+        iterations=1
+    if precision is None:
+        precision=0.00001
     bisect_x = functions.bisect(function_number, np.longdouble(beginning), np.longdouble(end),
-                                np.longdouble(precision), 24)[-1][0]
+                                np.longdouble(precision), iterations)[-1][0]
     bisect_y = functions.bisect(function_number, np.longdouble(beginning), np.longdouble(end),
-                                np.longdouble(precision), 24)[-1][1]
+                                np.longdouble(precision), iterations)[-1][1]
     falsi_x = \
-        functions.falsi(function_number, np.longdouble(beginning), np.longdouble(end), np.longdouble(precision), 24)[0][
+        functions.falsi(function_number, np.longdouble(beginning), np.longdouble(end), np.longdouble(precision),
+                        iterations)[0][
             -1]
     falsi_y = \
-        functions.falsi(function_number, np.longdouble(beginning), np.longdouble(end), np.longdouble(precision), 24)[1][
+        functions.falsi(function_number, np.longdouble(beginning), np.longdouble(end), np.longdouble(precision),
+                        iterations)[1][
             -1]
     plt.suptitle(get_function_equation(function_number))
     plt.title(f"Precision: {precision}")
@@ -30,6 +36,7 @@ def draw_function(function_number, beginning, end, precision, external_offset=0)
     plt.scatter(falsi_x, falsi_y, color="green", label="Root of function, found by Falsi method")
     plt.legend(loc="lower left")
     print(f"Bisect x:{bisect_x}\nBisect y:{bisect_y}\nFalsi x:{falsi_x}\nFalsi y:{falsi_y}")
+    print(f"Iterations:{iterations}\nPrecision:{precision}")
     offset = (end - beginning+external_offset) * precision
     if bisect_x < falsi_x:
         x_inside = np.linspace(bisect_x - offset, falsi_x + offset, 100)
@@ -42,11 +49,15 @@ def draw_function(function_number, beginning, end, precision, external_offset=0)
     plt.show()
 
 
-draw_function(1, x[0], x[-1], 0.0000000001)  # ok
-draw_function(2, x[0], x[-1], 0.0001)  # ok
+draw_function(1, x[0], x[-1], iterations=24, precision=0.0000000001)  # ok
+draw_function(1, x[0], x[-1], precision=0.0000000001)
+draw_function(2, x[0], x[-1], iterations=6, precision=0.0001)  # ok
+draw_function(2, x[0], x[-1], precision=0.0001)  # ok
 # cosine is borken
 # draw_function(3, -1.5 * np.pi, 1.5 * np.pi, 0.00001) not ok
-draw_function(4, x[0], x[-1], 0.0001)  # ok
+draw_function(4, x[0], x[-1], iterations=12, precision=0.000001)
+draw_function(4, x[0], x[-1], precision=0.0001)  # ok
 # draw_function(5,x[0],x[-1],0.00001) not ok
 # draw_function(6, x[0], x[-1], 0.00001) 0?
+draw_function(7, x[0], x[-1],  iterations=12, precision=0.000001)
 draw_function(7, x[0], x[-1], 0.0001)  # ok
