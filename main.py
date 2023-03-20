@@ -3,7 +3,8 @@ from menus import *
 
 
 def main():
-    print(falsi(1, 0, 5, eps=0.0000001))
+    print(bisect(2, np.longfloat(-1), np.longfloat(5), eps=np.longfloat(0.0000001)))
+    print(falsi(2, np.longfloat(-1), np.longfloat(5), eps=np.longfloat(0.0000001)))
     # choose_function()
     # while 1:
     #     fun = int(input("Function: "))

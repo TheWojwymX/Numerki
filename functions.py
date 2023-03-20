@@ -13,7 +13,7 @@ def horner(n: [int], coe: [float], x: [float]) -> np.longdouble:
 
 
 # Functions:
-# 1. x^3 - 1
+# 1. x^3 - 6x^2 + 7x - 3
 # 2. sin(x)
 # 3. cos(x)
 # 4. 5^x - 3
@@ -99,4 +99,4 @@ def falsi(fun_num: int, leftRange: np.longdouble, rightRange: np.longdouble, eps
             diff = abs(Fix[iter_number] - Fix[iter_number-1])
         iter_number = iter_number + 1
 
-    return Fix
+    return Fix, Fiy
