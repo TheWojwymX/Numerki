@@ -14,26 +14,26 @@ def horner(n: [int], coe: [float], x: [float]) -> np.longdouble:
 
 # Functions:
 # 1. x^3 - 6x^2 + 7x - 3
-# 2. sin(x)
-# 3. cos(x)
+# 2. sin(3^x)
+# 3. cos(x) - 2x
 # 4. 5^x - 3
 # 5. 4^(3 tan(0.3x^2 - 1)) - 1
-# 6. sin(x)/x
+# 6. sin(0.1x^2 + 12)/x
 # 7. sin(2x^2 - 2) - 3x^3 + 2x^2 - 1
 
 def function_value(x: np.longdouble, fun_num: int):
     if fun_num == 1:
         return horner(4, [1, -6, 7, -3], x)
     elif fun_num == 2:
-        return math.sin(x)
+        return math.sin(3**x)
     elif fun_num == 3:
-        return math.cos(x)
+        return math.cos(x) - 2 * x
     elif fun_num == 4:
         return 5 ** x - 3
     elif fun_num == 5:
-        return 4 ** (3 * math.cos(2*x)) - 1
+        return 4 ** (3 * math.tan(0.3*x*x - 1)) - 1
     elif fun_num == 6:
-        return math.sin(x) / x
+        return math.sin(x*x + 1) / x
     elif fun_num == 7:
         return math.sin(2 * x * x - 2) + horner(4, [-3, 2, 0, -1], x)
     else:
@@ -48,7 +48,7 @@ def bisect(fun_num: int, leftRange: np.longdouble, rightRange: np.longdouble, ep
     right = rightRange
     Bi = []
 
-    if left * right > 0:
+    if function_value(left, fun_num) * function_value(right, fun_num) > 0:
         raise Exception("Same signs, choose different range")
 
     if eps is not None:
@@ -78,7 +78,7 @@ def falsi(fun_num: int, leftRange: np.longdouble, rightRange: np.longdouble, eps
     Fix = []
     Fiy = []
 
-    if left * right > 0:
+    if function_value(left, fun_num) * function_value(right, fun_num) > 0:
         raise Exception("Same signs, choose different range")
 
     if eps is not None:
@@ -98,5 +98,6 @@ def falsi(fun_num: int, leftRange: np.longdouble, rightRange: np.longdouble, eps
         if len(Fix) > 2:
             diff = abs(Fix[iter_number] - Fix[iter_number-1])
         iter_number = iter_number + 1
+
 
     return Fix, Fiy
