@@ -101,3 +101,4 @@ def falsi(fun_num: int, leftRange: np.longdouble, rightRange: np.longdouble, eps
 
 
     return Fix, Fiy
+

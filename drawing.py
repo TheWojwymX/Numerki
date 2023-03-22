@@ -13,6 +13,10 @@ def get_function_equation(function_number):
 
 
 def draw_function(function_number, beginning, end, name, precision=None, iterations=None, external_offset=0):
+    if precision is None:
+        precision=0.1
+    if iterations is None:
+        iterations=1
     bisect_x = functions.bisect(function_number, np.longdouble(beginning), np.longdouble(end),
                                 np.longdouble(precision), iterations)[-1][0]
     bisect_y = functions.bisect(function_number, np.longdouble(beginning), np.longdouble(end),
@@ -36,9 +40,9 @@ def draw_function(function_number, beginning, end, name, precision=None, iterati
     print(f"Bisect x:{bisect_x}\nBisect y:{bisect_y}\nIterations:{iterBisect}\nFalsi x:{falsi_x}\nFalsi y:{falsi_y}\nIterations:{iterFalsi}")
     offset = (end - beginning+external_offset) * precision
     if bisect_x < falsi_x:
-        x_inside = np.linspace(bisect_x - offset, falsi_x + offset, 100)
+        x_inside = np.linspace(beginning - offset, end + offset, 200)
     if bisect_x > falsi_x:
-        x_inside = np.linspace(falsi_x - offset, bisect_x + offset, 100)
+        x_inside = np.linspace(beginning - offset, end + offset, 200)
     else:
         x_inside = np.linspace(falsi_x - offset, falsi_x + offset, 100)
     y = [functions.function_value(x_value, function_number) for x_value in x_inside]
@@ -48,17 +52,25 @@ def draw_function(function_number, beginning, end, name, precision=None, iterati
     plt.savefig(name+'.jpg')
 
 
-# draw_function(1, 4.5, 5.0, iterations=20)  # ok
-draw_function(1, 4.5, 5.0, name='test', precision=0.01)
-# draw_function(2, 0, 1.5, iterations=20)  # ok
-# draw_function(2, 0, 1.5, precision=0.01)  # ok
-# draw_function(3, 0, 1, iterations=20)
-# draw_function(3, 0, 1, precision=0.01)
-# draw_function(4, 0, 1, iterations=20)
-# draw_function(4, 0, 1, precision=0.01)
-# draw_function(5, 0, 2, iterations=20)
-# draw_function(5, 0, 2, precision=0.01)
-# draw_function(6, 1, 1.5, iterations=20)
-# draw_function(6, 1, 1.5, precision=0.01)
-# draw_function(7, -1, 0, iterations=20)
-# draw_function(7, -1, 0, precision=0.01)
+# draw_function(1, 4.5, 5.0, name='f1_iter', iterations=10)
+# draw_function(1, 4.5, 5.0, name='f1_eps', precision=0.01)
+# draw_function(1, 4.5, 5.0, name='f1_eps_2', precision=0.0001)
+# draw_function(2, 0, 1.5, name='f2_iter', iterations=10)  # ok
+# draw_function(2, 0, 1.5, name='f2_eps', precision=0.01)  # ok
+# draw_function(2, 0, 1.5, name='f2_eps_2', precision=0.0001)  # ok
+# draw_function(3, 0, 1, name='f3_iter', iterations=10)
+# draw_function(3, 0, 1, name='f3_eps', precision=0.01)
+# draw_function(3, 0, 1.5, name='f3_eps_2', precision=0.0001)  # ok
+# draw_function(4, 0, 1, name='f4_iter', iterations=10)
+# draw_function(4, 0, 3, name='f4_eps', precision=0.01)
+# draw_function(4, 0, 3, name='f4_eps_2', precision=0.0001)  # ok
+# draw_function(5, 0, 2, name='f5_iter', iterations=10)
+# draw_function(5, 0, 2, name='f5_eps', precision=0.01)
+# draw_function(5, 0, 2, name='f5_eps_2', precision=0.0001)
+# draw_function(6, 1, 1.5, name='f6_iter', iterations=10)
+# draw_function(6, 1, 1.5, name='f6_eps', precision=0.01)
+# draw_function(6, 1, 1.5, name='f7_eps_2', precision=0.0001)
+# draw_function(7, -3, 0, name='f7_iter', iterations=10)
+# draw_function(7, -3, 0, name='f7_eps', precision=0.01)
+# draw_function(7, -3, 0, name='f7_eps_2', precision=0.0001)
+
