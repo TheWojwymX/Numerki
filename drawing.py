@@ -12,7 +12,7 @@ def get_function_equation(function_number):
     return function_equation.get(function_number)
 
 
-def draw_function(function_number, beginning, end, precision=None, iterations=None, external_offset=0):
+def draw_function(function_number, beginning, end, name, precision=None, iterations=None, external_offset=0):
     bisect_x = functions.bisect(function_number, np.longdouble(beginning), np.longdouble(end),
                                 np.longdouble(precision), iterations)[-1][0]
     bisect_y = functions.bisect(function_number, np.longdouble(beginning), np.longdouble(end),
@@ -45,11 +45,11 @@ def draw_function(function_number, beginning, end, precision=None, iterations=No
     plt.axhline(0, color='black')
     plt.plot(x_inside, y, scalex=True)
 
-    plt.show()
+    plt.savefig(name+'.jpg')
 
 
 # draw_function(1, 4.5, 5.0, iterations=20)  # ok
-draw_function(1, 4.5, 5.0, precision=0.01)
+draw_function(1, 4.5, 5.0, name='test', precision=0.01)
 # draw_function(2, 0, 1.5, iterations=20)  # ok
 # draw_function(2, 0, 1.5, precision=0.01)  # ok
 # draw_function(3, 0, 1, iterations=20)
