@@ -40,16 +40,17 @@ def draw_function(function_number, beginning, end, name, precision=None, iterati
     print(f"Bisect x:{bisect_x}\nBisect y:{bisect_y}\nIterations:{iterBisect}\nFalsi x:{falsi_x}\nFalsi y:{falsi_y}\nIterations:{iterFalsi}")
     offset = (end - beginning+external_offset) * precision
     if bisect_x < falsi_x:
-        x_inside = np.linspace(beginning - offset, end + offset, 200)
-    if bisect_x > falsi_x:
-        x_inside = np.linspace(beginning - offset, end + offset, 200)
+        x_inside = np.linspace(bisect_x - offset, falsi_x + offset, 200)
+    elif bisect_x > falsi_x:
+        x_inside = np.linspace(falsi_x - offset, bisect_x + offset, 200)
     else:
-        x_inside = np.linspace(falsi_x - offset, falsi_x + offset, 100)
+        x_inside = np.linspace(falsi_x - offset, falsi_x + offset, 200)
     y = [functions.function_value(x_value, function_number) for x_value in x_inside]
     plt.axhline(0, color='black')
     plt.plot(x_inside, y, scalex=True)
 
     plt.savefig(name+'.jpg')
+    plt.clf()
 
 
 # draw_function(1, 4.5, 5.0, name='f1_iter', iterations=10)
@@ -73,4 +74,4 @@ def draw_function(function_number, beginning, end, name, precision=None, iterati
 # draw_function(7, -3, 0, name='f7_iter', iterations=10)
 # draw_function(7, -3, 0, name='f7_eps', precision=0.01)
 # draw_function(7, -3, 0, name='f7_eps_2', precision=0.0001)
-
+#

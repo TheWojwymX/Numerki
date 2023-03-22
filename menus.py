@@ -1,10 +1,16 @@
+import drawing
+
+
 def choose_function():
     print("Made by Jakub Kalinowski & Piotr Marszałek")
     print("Choose your function:")
-    print("1. x^3 - 6x^2 +7x - 3")
-    print("2. sin(3^x)")
-    print("3. cos(x) - 2x")
-    print("4. 5^x - 3")
-    print("5. 4^(3 tan(2x)) - 1")
-    print("6. sin(x^2 + 1)/x")
-    print("7. sin(2x^2 - 2) - 3x^3 + 2x^2 - 1")
+    for i in range(1,8):
+        print(f"{i}: {drawing.get_function_equation(i)}")
+    print("To exit the applcation, type exit\n")
+
+
+def choose_stop():
+    print("Choose your stop condition:")
+    print("1. Precision")
+    print("2. Iterations")
+
