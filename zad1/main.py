@@ -1,5 +1,4 @@
 import drawing
-import functions
 import menus
 import numpy as np
 

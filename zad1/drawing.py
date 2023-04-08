@@ -28,8 +28,9 @@ def draw_function(function_number, beginning, end, name, precision=None, iterati
         functions.falsi(function_number, np.longdouble(beginning), np.longdouble(end), np.longdouble(precision),
                         iterations)[1][-1]
     iterBisect = len(functions.bisect(function_number, np.longdouble(beginning), np.longdouble(end),
-                                np.longdouble(precision), iterations))
-    iterFalsi = len(functions.falsi(function_number, np.longdouble(beginning), np.longdouble(end), np.longdouble(precision),
+                                      np.longdouble(precision), iterations))
+    iterFalsi = len(
+        functions.falsi(function_number, np.longdouble(beginning), np.longdouble(end), np.longdouble(precision),
                         iterations)[0])
     plt.suptitle(get_function_equation(function_number))
     plt.title(f"Precision: {precision}")
@@ -71,7 +72,7 @@ def draw_function(function_number, beginning, end, name, precision=None, iterati
 # draw_function(6, 1, 1.5, name='f6_iter', iterations=10)
 # draw_function(6, 1, 1.5, name='f6_eps', precision=0.01)
 # draw_function(6, 1, 1.5, name='f7_eps_2', precision=0.0001)
-# draw_function(7, -3, 0, name='f7_iter', iterations=10)
-# draw_function(7, -3, 0, name='f7_eps', precision=0.01)
-# draw_function(7, -3, 0, name='f7_eps_2', precision=0.0001)
+draw_function(7, -3, 0, name='f7_iter', iterations=10)
+draw_function(7, -3, 0, name='f7_eps', precision=0.01)
+draw_function(7, -3, 0, name='f7_eps_2', precision=0.0001)
 #
