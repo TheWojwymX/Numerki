@@ -1,5 +1,3 @@
-from typing import Type
-
 import numpy as np
 
 from zad2 import menu
@@ -8,7 +6,7 @@ from zad2 import menu
 # http://www.algorytm.org/procedury-numeryczne/metoda-jacobiego.html
 # https://icis.pcz.pl/~rperlinski/strona/files/mn/lab08pom.pdf
 
-def matrix_diagonal_nonzero(initial_matrix: np.array) -> np.array:
+def ensure_that_matrix_diagonal_is_nonzero(initial_matrix: np.array) -> np.array:
     matrix_size = initial_matrix.shape[0]
     while np.count_nonzero(np.diagonal(initial_matrix)) < matrix_size:
         for iterator in range(matrix_size):
@@ -16,15 +14,6 @@ def matrix_diagonal_nonzero(initial_matrix: np.array) -> np.array:
                 initial_matrix[[iterator, iterator + 1]] = initial_matrix[[iterator + 1, iterator]]
     return initial_matrix
 
-# def matrix_norm(matrix_m: np.array) -> Type[Exception] | None:
-#     matrix_size = matrix_m.shape[0]
-#     matrix_m_abs = np.abs(matrix_m)
-#     matrix_m_sqr = np.square(matrix_m)
-#     if (np.sum(matrix_m_abs.sum(axis=0)) >= matrix_size) and (
-#             np.sum(matrix_m_abs.sum(axis=1)) >= matrix_size and (np.sqrt(np.sum(matrix_m_sqr) >= 1))):
-#         return Exception
-#     else:
-#         return None
 
 def is_convergent(matrix: np.array) -> bool:
     diag = np.abs(matrix.diagonal())
@@ -34,34 +23,24 @@ def is_convergent(matrix: np.array) -> bool:
     else:
         raise Exception
 
-# def l_d_u_matrix_creation(initial_matrix: np.array) -> tuple(np,):
 
-def jacobi_method_iterations(initial_matrix: np.array, iterations: int) -> Type[Exception] | np.array:
-    initial_matrix = matrix_diagonal_nonzero(initial_matrix)
-    print(initial_matrix)
-    initial_matrix_trimmed = initial_matrix
-    initial_matrix_trimmed = np.delete(initial_matrix_trimmed, -1, 1)
-    print(initial_matrix_trimmed)
-    try:
-        is_convergent(initial_matrix_trimmed)
-        print("Matrix is convergent for Jacobi iterative method.")
-    except:
-        raise Exception("Matrix is not convergent for Jacobi iterative method.")
-    matrix_size = initial_matrix.shape[0]
-
-    matrix_l = initial_matrix
-    matrix_l = np.delete(matrix_l, -1, 1)
+def helper_matrix_creation(initial_matrix: np.array, initial_matrix_trimmed: np.array, matrix_size: int) \
+        -> tuple[np.array, np.array, np.array]:
+    matrix_l = initial_matrix_trimmed
     np.fill_diagonal(matrix_l, 0)
     matrix_l = np.tril(matrix_l)
 
     matrix_d = np.zeros((matrix_size, matrix_size))
     np.fill_diagonal(matrix_d, initial_matrix.diagonal())
 
-    matrix_u = initial_matrix
-    matrix_u = np.delete(matrix_u, -1, 1)
+    matrix_u = initial_matrix_trimmed
     np.fill_diagonal(matrix_u, 0)
     matrix_u = np.triu(matrix_u)
 
+    return matrix_l, matrix_d, matrix_u
+
+
+def matrix_n_creation(matrix_d: np.array, matrix_size: int) -> np.array:
     matrix_n = np.zeros((matrix_size, matrix_size))
     for column_iterator in range(matrix_size):
         for row_iterator in range(matrix_size):
@@ -70,30 +49,78 @@ def jacobi_method_iterations(initial_matrix: np.array, iterations: int) -> Type[
             else:
                 matrix_n[row_iterator, column_iterator] = 0
 
+    return matrix_n
+
+
+def jacobi_method_iterations(initial_matrix: np.array, iterations: int) -> tuple[np.array, np.float64]:
+    initial_matrix = ensure_that_matrix_diagonal_is_nonzero(initial_matrix)
+    initial_matrix_trimmed = np.delete(initial_matrix, -1, 1)
+    try:
+        is_convergent(initial_matrix_trimmed)
+        print("Matrix is convergent for Jacobi iterative method.")
+    except Exception:
+        raise Exception("Matrix is not convergent for Jacobi iterative method.")
+
+    matrix_size = initial_matrix.shape[0]
+
+    matrix_l, matrix_d, matrix_u = helper_matrix_creation(initial_matrix, initial_matrix_trimmed, matrix_size)
+
+    matrix_n = matrix_n_creation(matrix_d, matrix_size)
+
+    matrix_m = np.matmul(-matrix_n, (matrix_l + matrix_u))
+
+    initial_vector = np.zeros(matrix_size)
+    b_vector = initial_matrix[:, -1]
+
+    error_list = list()
+    vector = np.matmul(matrix_m, initial_vector) + np.matmul(matrix_n, b_vector)
+
+    for iteration in range(1, iterations):
+        error_list = list()
+        new_vector = np.matmul(matrix_m, vector) + np.matmul(matrix_n, b_vector)
+        for index in range(new_vector.size):
+            error = new_vector[index] - vector[index]
+            error_list.append(error)
+        vector = new_vector
+    accuracy = str(max(error_list))
+    return new_vector, np.power(10.0, (-int(accuracy[::-1].find('.')) + 1))
+
+
+def jacobi_method_accuracy(initial_matrix: np.array, accuracy: float) -> tuple[np.array, int]:
+    initial_matrix = ensure_that_matrix_diagonal_is_nonzero(initial_matrix)
+    initial_matrix_trimmed = np.delete(initial_matrix, -1, 1)
+    try:
+        is_convergent(initial_matrix_trimmed)
+        print("Matrix is convergent for Jacobi iterative method.")
+    except Exception:
+        raise Exception("Matrix is not convergent for Jacobi iterative method.")
+
+    matrix_size = initial_matrix.shape[0]
+
+    matrix_l, matrix_d, matrix_u = helper_matrix_creation(initial_matrix, initial_matrix_trimmed, matrix_size)
+
+    matrix_n = matrix_n_creation(matrix_d, matrix_size)
+
     matrix_m = np.matmul(-matrix_n, (matrix_l + matrix_u))
 
     initial_vector = np.zeros(matrix_size)
     b_vector = initial_matrix[:, -1]
 
     vector = np.matmul(matrix_m, initial_vector) + np.matmul(matrix_n, b_vector)
+    iterations = 1
+    while True:
+        error_list = list()
+        is_finished = True
+        new_vector = np.matmul(matrix_m, vector) + np.matmul(matrix_n, b_vector)
+        for index in range(new_vector.size):
+            error = new_vector[index] - vector[index]
+            error_list.append(error)
+        for error in error_list:
+            if error >= accuracy:
+                is_finished = False
+        if is_finished:
+            return vector, iterations
+        vector = new_vector
+        iterations += 1
 
-    for iteration in range(1, iterations):
-        vector = np.matmul(matrix_m, vector) + np.matmul(matrix_n, b_vector)
 
-    return vector
-
-
-try:
-    menu.print_solutions_vector(
-        jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_a.txt"), iterations=11))
-except Exception as e:
-    print(e)
-# menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_b.txt"), iterations=11))
-# menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_c.txt"), iterations=11))
-menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_d.txt"), iterations=11))
-# menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_e.txt"), iterations=11))
-# menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_f.txt"), iterations=11))
-menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_g.txt"), iterations=11))
-# menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_h.txt"), iterations=11))
-# menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_i.txt"), iterations=11))
-menu.print_solutions_vector(jacobi_method_iterations(initial_matrix=menu.load_matrix_from_file("data_j.txt"), iterations=11))
