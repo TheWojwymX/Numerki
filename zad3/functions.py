@@ -13,7 +13,7 @@ def get_x_values(left_bound: np.float64, right_bound: np.float64) -> np.array:
     return x_initial_values
 
 
-def get_y_linear(a: np.float, x_values: np.array) -> np.array:
+def get_y_linear(a: np.float64, x_values: np.array) -> np.array:
     y_initial_values = a * x_values
     return y_initial_values
 

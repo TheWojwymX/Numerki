@@ -1,5 +1,3 @@
-import numpy as np
-
 from zad3 import menus, functions, drawing
 
 
@@ -10,17 +8,17 @@ def main():
         option = int(input())
         if 0 > option > 3:
             raise Exception("[ERROR] Incorrect option!")
-    except Exception as exception:
+    except Exception:
         raise Exception("[ERROR] Not a numeric option!")
     try:
         left_bound, right_bound = menus.range_choice()
     except Exception as exception:
         raise exception
     initial_x = functions.get_x_values(left_bound, right_bound)
-    nodes_amount=10
+    nodes_amount = 10
     nodes_list = menus.nodes_choice(nodes_amount)
 
-    match (option):
+    match option:
         case 0:
             try:
                 slope = menus.slope_choice()
