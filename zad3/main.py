@@ -1,39 +1,21 @@
-from zad3 import menus, functions, lagrange_chebyshev
+from zad3 import menus, lagrange_chebyshev
+
 
 def main():
     print("\nWelcome!")
-    print(lagrange_chebyshev.plotFunctions(10, 0, 5, 5))
-    # menus.function_choice()
-    # try:
-    #     option = int(input())
-    #     if 0 > option > 3:
-    #         raise Exception("[ERROR] Incorrect option!")
-    # except Exception:
-    #     raise Exception("[ERROR] Not a numeric option!")
-    # try:
-    #     left_bound, right_bound = menus.range_choice()
-    # except Exception as exception:
-    #     raise exception
-    # initial_x = functions.get_x_values(left_bound, right_bound)
-    # nodes_amount = 10
-    # nodes_list = menus.nodes_choice(nodes_amount)
-    #
-    # match option:
-    #     case 0:
-    #         try:
-    #             slope = menus.slope_choice()
-    #             initial_y = functions.get_y_linear(slope, initial_x)
-    #         except Exception as e:
-    #             raise e
-    #         drawing.draw_initial_function(initial_x, initial_y)
-    #     case 1:
-    #         print("Not implemented yet")
-    #     case 2:
-    #         print("Not implemented yet")
-    #     case 3:
-    #         print("Not implemented yet")
+    menus.function_choice()
+    fun = input("Choose function: ")
+    if int(fun) < 0 or int(fun) > 7:
+        raise Exception("Wrong function number")
+    left = input("Choose the beginning of the range: ")
+    right = input("Choose the end of the range: ")
+    if float(left) > float(right):
+        raise Exception("Wrong range selected")
+    nodes = input("Choose number of nodes: ")
+    if int(nodes) <= 0:
+        raise Exception("Number of nodes must be greater than 0")
+    lagrange_chebyshev.plotFunctions(int(nodes), float(left), float(right), int(fun))
 
 
-if __name__ == "__main__":
-        main()
-
+while __name__ == "__main__":
+    main()
