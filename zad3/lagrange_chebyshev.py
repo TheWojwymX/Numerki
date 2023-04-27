@@ -49,16 +49,15 @@ def generateNodes(numberOfNodes, minRange, maxRange, functionNumber):
 def calculateInterpolation(numberOfNodes, minRange, maxRange, functionNumber):
     Ix = []
     Iy = []
+    Nodes = generateNodes(numberOfNodes, minRange, maxRange, functionNumber)
     i = minRange
     while i < maxRange:
         y = 0
         for j in range(numberOfNodes):
-            temp = generateNodes(numberOfNodes, minRange, maxRange, functionNumber)[1][j]
+            temp = Nodes[1][j]
             for k in range(numberOfNodes):
                 if j != k:
-                    temp = temp * ((i - generateNodes(numberOfNodes, minRange, maxRange, functionNumber)[0][k])
-                                   / (generateNodes(numberOfNodes, minRange, maxRange, functionNumber)[0][j] -
-                                      generateNodes(numberOfNodes, minRange, maxRange, functionNumber)[0][k]))
+                    temp = temp * ((i - Nodes[0][k]) / (Nodes[0][j] - Nodes[0][k]))
             y = y + temp
         Ix.append(i)
         Iy.append(y)
