@@ -1,12 +1,10 @@
-# wezel:waga
 import math
 import functions
 
 
-def gaussLaguerre(nodes: int, choice: str, result:float) -> float:
-
+def gaussLaguerre(nodes: int, choice: str) -> float:
     dictionary = dict()
-
+    result = 0
     match nodes:
         case 2:
             dictionary = {0.585786: 0.853553, 3.41421: 0.146447}
@@ -18,7 +16,7 @@ def gaussLaguerre(nodes: int, choice: str, result:float) -> float:
             dictionary = {0.26356: 0.521756, 1.4134: 0.398667, 3.59643: 0.075942, 7.08581: 0.00361176,
                           12.6408: 0.00002337}
 
-    for i in range(0, nodes-1):
-        result += list(dictionary.values())[i] * functions.choose_function(list(dictionary)[i], choice)/math.e **-list(dictionary)[i]
+    for i in range(0, nodes - 1):
+        result += list(dictionary.values())[i] * functions.choose_function(list(dictionary)[i], choice) / math.exp(-list(dictionary)[i])
 
     return result

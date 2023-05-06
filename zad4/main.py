@@ -59,7 +59,8 @@ def main():
                     result = second_result
                     dividing_poins_amount += 1
 
-            print(f"[RESULT] Approximated integral value is equal to {result} (result achieved after {iteration} iterations)")
+            print(
+                f"[RESULT] Approximated integral value is equal to {result} (result achieved after {iteration} iterations)")
         if range_choice == '2':
             accuracy = input("[INPUT]  Choose the accuracy: ")
             try:
@@ -79,7 +80,7 @@ def main():
             delta = 0
             left = 0
             while True:
-                second_result = simpsons_method(left, left+1, dividing_poins_amount, choice, range_choice, result)
+                second_result = simpsons_method(left, left + 1, dividing_poins_amount, choice, range_choice, result)
                 # print(second_result[0])
                 if abs(second_result[1] - delta) <= accuracy:
                     result = second_result[0]
@@ -88,24 +89,26 @@ def main():
                     result = second_result[0]
                     delta = second_result[1]
                     dividing_poins_amount += 1
+                    left += 1
             print(f"[RESULT] Approximated integral value is equal to {result} (dividing points amount: "
                   f"{dividing_poins_amount})")
             result = 0
-            delta = 0
-            nodes = 2
-            while True:
-                if nodes >5:
-                    break
-                delta = gaussLaguerre(nodes, choice, result)
-                print(delta)
-                if math.fabs(delta - result)<=accuracy:
-                    result = delta
-                    break
-                else:
-                    result += delta
-                    nodes+=1
+            nodes = 5
+            sum = 0
+            sum = gaussLaguerre(nodes, choice)
+            # while True:
+            #     if nodes > 5:
+            #         break
+            #
+            #     print(delta)
+            #     if math.fabs(delta - result) <= accuracy:
+            #         break
+            #     else:
+            #         result = delta
+            #         sum += delta
+            #         nodes += 1
 
-            print(f"[RESULT] Approximated integral value is equal to {result} (nodes: {nodes-1})")
+            print(f"[RESULT] Approximated integral value is equal to {sum} (nodes: {nodes})")
     except Exception as exception:
         print(exception)
         print("[INFO]   RESTARTING ...\n\n\n")
@@ -114,18 +117,17 @@ def main():
 while __name__ == "__main__":
     main()
 
-
 # iteration = 2
-        # dividing_points = 1
+# dividing_points = 1
 
-        # while True:
-        #     integral_value = simpsons_method(left, right, dividing_points, choice)
-        #     next_integral_value = simpsons_method(left, right, dividing_points * 2, choice)
-        #     if next_integral_value - integral_value <= accuracy:
-        #         break
-        #     else:
-        #         iteration += 1
-        #         dividing_points *= 2
-        #
-        # print(
-        #     f"[RESULT] Approximated integral value is equal to {integral_value} (result achieved after {iteration} iterations)")
+# while True:
+#     integral_value = simpsons_method(left, right, dividing_points, choice)
+#     next_integral_value = simpsons_method(left, right, dividing_points * 2, choice)
+#     if next_integral_value - integral_value <= accuracy:
+#         break
+#     else:
+#         iteration += 1
+#         dividing_points *= 2
+#
+# print(
+#     f"[RESULT] Approximated integral value is equal to {integral_value} (result achieved after {iteration} iterations)")
