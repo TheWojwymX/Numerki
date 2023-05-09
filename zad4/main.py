@@ -1,5 +1,6 @@
 from Simpson import *
 from Gauss_Laguerre import *
+from functions import *
 
 
 def main():
@@ -7,6 +8,7 @@ def main():
         # MENU
         print("[INFO]   Welcome!")
 
+        menu()
         choice = input("[INPUT]  Choose fuction: ")
 
         if choice != '1' and choice != '2' and choice != '3' and choice != '4':
