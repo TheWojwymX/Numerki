@@ -92,10 +92,16 @@ def main():
                     left += 1
             print(f"[RESULT] Approximated integral value is equal to {result} (dividing points amount: "
                   f"{dividing_poins_amount})")
-            result = 0
-            nodes = 5
-            sum = 0
-            sum = gaussLaguerre(nodes, choice)
+            nodes = 2
+            previous_result=0
+            for node_amount in range(nodes, 6):
+                node_counter = node_amount
+                result = gaussLaguerre(node_counter, choice)
+
+                print(f"[RESULT] Approximated integral value is equal to {result} (nodes: {node_counter})")
+                if math.fabs(result - previous_result) <= accuracy:
+                    break
+                previous_result = result
             # while True:
             #     if nodes > 5:
             #         break
@@ -108,7 +114,7 @@ def main():
             #         sum += delta
             #         nodes += 1
 
-            print(f"[RESULT] Approximated integral value is equal to {sum} (nodes: {nodes})")
+            print(f"[RESULT] Approximated integral value is equal to {result} (nodes: {node_counter})")
     except Exception as exception:
         print(exception)
         print("[INFO]   RESTARTING ...\n\n\n")
