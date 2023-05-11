@@ -116,7 +116,6 @@ def main():
             #         sum += delta
             #         nodes += 1
 
-            print(f"[RESULT] Approximated integral value is equal to {result} (nodes: {node_counter})")
     except Exception as exception:
         print(exception)
         print("[INFO]   RESTARTING ...\n\n\n")
