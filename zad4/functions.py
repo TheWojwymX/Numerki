@@ -11,3 +11,9 @@ def choose_function(x: float, choice: str) -> float:
             return (math.sin(x)) * math.e ** -x
         case '4':
             return abs(x ** 2 - 8 + math.cos(x)) * math.e ** -x
+
+def menu():
+    print("1. (5x - 2) * e^(-x)")
+    print("2. (x^3 + 5x^2 - 4x + 20) * e^(-x)")
+    print("3. sin(x) * e^(-x)")
+    print("4. |x^2 - 8 + cos(x)| * e^(-x)")
