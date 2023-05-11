@@ -96,7 +96,7 @@ def main():
                   f"{dividing_poins_amount})")
             nodes = 2
             previous_result=0
-            for node_amount in range(nodes, 6):
+            for node_amount in range(nodes, 11):
                 node_counter = node_amount
                 result = gaussLaguerre(node_counter, choice)
 
