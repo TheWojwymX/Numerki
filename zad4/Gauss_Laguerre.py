@@ -38,3 +38,5 @@ def gaussLaguerre(nodes: int, choice: str) -> float:
             -list(dictionary)[i])
 
     return result
+
+print(gaussLaguerre(5, '4'))
