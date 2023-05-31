@@ -56,7 +56,7 @@ def calculateError(choice: str, qDegree, pDegree):
         lambdaCoe[i] = calculateLambda(choice, qDegree, i)
 
     for i in range(qDegree):
-        for j in range(pDegree):
+        for j in range(pDegree + 1):  # Poprawiony zakres pętli
             errorArray[i] = errorArray[i] + lambdaCoe[j] * LaguerrePolynomial(j, coeX[i])
 
     for i in range(qDegree):
@@ -73,7 +73,6 @@ def plotFunctions(choice: str, qDegree, pDegree, left, right):
     lambdaCoe = [0] * (pDegree + 1)
     for i in range(pDegree + 1):
         lambdaCoe[i] = calculateLambda(choice, qDegree, i)
-    print(lambdaCoe)
 
     for i in range(len(xAxis)):
         single_yAxis = 0
@@ -90,6 +89,6 @@ def plotFunctions(choice: str, qDegree, pDegree, left, right):
     plt.legend()
     plt.show()
 
-
-print(calculateError('1', 5, 3))
-plotFunctions('1', 5, 3, -1, 1)
+# print(calculateLambda('1', 5, 0))
+print(calculateError('1', 5, 5))
+# plotFunctions('1', 5, 1, -1, 1)
